@@ -1,1 +1,5 @@
-﻿
+﻿{
+  "name": "json",
+  "entry": true,
+  "value":  7
+}
