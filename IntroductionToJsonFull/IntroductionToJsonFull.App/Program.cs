@@ -4,10 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace IntroductionToJsonFull.App
 {
@@ -18,8 +16,12 @@ namespace IntroductionToJsonFull.App
         static void Main(string[] args)
         {
             // JSON BASICS - from a string 
+            // A JSON file starts with either
+            // - a square bracket, indicating a list,
+            // - or a curly bracket, indicating a dictionary or object
             string json = @"{""key1"":""value1"",""key2"":""value2""}";
 
+            // a curly bracket could just be a simple collection matching keys to values, both strings 
             IDictionary<string, string> values = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
             foreach (string k in values.Keys)
@@ -27,6 +29,8 @@ namespace IntroductionToJsonFull.App
 
 
             // step two - a dictionary from a text file 
+            // if the JSON isn't just as simple as string-string we can parse it with the JObject.Parse method 
+            // and convert with the ToObject types 
             JObject o1 = JObject.Parse(File.ReadAllText(@"data.json"));
             Debug.Assert("json" == o1["name"].ToObject<string>());
             Debug.Assert(o1["entry"].ToObject<bool>());
@@ -46,6 +50,8 @@ namespace IntroductionToJsonFull.App
             ]
             }";
 
+            // if all the keys map to an object that already exists (note that these need to have public setters) 
+            // this is safest when we control the JSON, so we are confident that it won't change 
             Account account = JsonConvert.DeserializeObject<Account>(json2);
 
             Console.WriteLine(account.Email);
@@ -56,29 +62,61 @@ namespace IntroductionToJsonFull.App
 
             PressAKey();
 
+            string msg = "Downloading Data";
+
+            Console.Write(msg);
             // step four - downloading data from a web URI
+            // For examples, this JSON example is a list of objects.
+            // If you click on the list you'll see that it is actually a list with two items, the first item is an object, the second actually another list 
             string jsonDownload;
             using(var wc = new WebClient())
             {
                 jsonDownload = wc.DownloadString("http://api.worldbank.org/v2/countries/USA/indicators/NY.GDP.MKTP.CD?per_page=5000&format=json");
            
             }
+            Console.Write($"\r{"".PadLeft(msg.Length+1, ' ')}\r");
 
+            // because it's an object we can parse it with JArray - this will return a collection. 
+            // Using the dynamic keyword allows us to wave our hands a little.
             dynamic j = JArray.Parse(jsonDownload);
 
+            // so we ignore the first item and the second item is assumed to be a list. 
+            // we choose to use dynamic because the underlying JSON is too complex (or liable to change) 
+            // unless something has gone wrong, let's grab the second item from the list and treat it like a collection 
             dynamic l = j[1];
-            Console.WriteLine(l.Count);
+            Console.WriteLine($"{l.Count} years of data");
+
+            // the dynamic allows us to make assumptions about the properties on the object. 
             foreach(dynamic row in l)
             {
-                Console.WriteLine($"{row.date}: {row.countryiso3code}: ${row.value / 1000000000:F3}bn");
+                // note that we can treat row like a dictionary, with [], or as an object, with .property 
+                Console.WriteLine($"{row["date"]}: {row.countryiso3code}: ${row.value / 1000000000:F3}bn");
             }
 
-
             PressAKey();
+            Console.Write(msg);
+
+            // this next feed though, is not a collection, but a {} so we should use the JObject.Parse method 
+            for (int i = 0; i < 10; ++i)
+            {
+                string nasaDownload;
+                using (var wc = new WebClient())
+                {
+                    nasaDownload = wc.DownloadString("http://api.open-notify.org/iss-now.json");
+                }
+                if(i == 0)
+                    Console.Write($"\r{"".PadLeft(msg.Length + 1, ' ')}\r");
+
+                dynamic o = JObject.Parse(nasaDownload);
+                // https://stackoverflow.com/questions/249760/how-can-i-convert-a-unix-timestamp-to-datetime-and-vice-versa 
+                DateTime dt = DateTimeOffset.FromUnixTimeSeconds((long)o.timestamp).LocalDateTime;
+                Console.WriteLine($"{dt.ToLongTimeString()} : ({o.iss_position.latitude}, {o.iss_position.longitude})");
+                Thread.Sleep(2000);
+            }
 
             // and relax
-
         }
+
         public static void PressAKey()
         {
             Console.WriteLine("\nPress a key");
