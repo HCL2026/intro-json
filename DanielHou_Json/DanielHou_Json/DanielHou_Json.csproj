@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4822D159-E557-41F1-AEB0-966E4E37F400}</ProjectGuid>
+    <ProjectGuid>{D85A3290-9901-476B-A5B4-B1E16FF1B1B5}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>IntroductionToJsonFull.App</RootNamespace>
-    <AssemblyName>IntroductionToJsonFull.App</AssemblyName>
+    <RootNamespace>DanielHou_Json</RootNamespace>
+    <AssemblyName>DanielHou_Json</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -51,9 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="data.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
