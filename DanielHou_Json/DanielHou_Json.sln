@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanielHou_Json", "DanielHou_Json\DanielHou_Json.csproj", "{D85A3290-9901-476B-A5B4-B1E16FF1B1B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Population Graph", "Population Graph\Population Graph.csproj", "{BD0AA186-85C8-4CBC-81F7-E6B249718A8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Population Graph", "Population Graph\Population Graph.csproj", "{BD0AA186-85C8-4CBC-81F7-E6B249718A8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataClass", "DataClass\DataClass.csproj", "{E234B4D9-AD4F-423B-9029-49BA2740E8E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{BD0AA186-85C8-4CBC-81F7-E6B249718A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD0AA186-85C8-4CBC-81F7-E6B249718A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD0AA186-85C8-4CBC-81F7-E6B249718A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E234B4D9-AD4F-423B-9029-49BA2740E8E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E234B4D9-AD4F-423B-9029-49BA2740E8E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E234B4D9-AD4F-423B-9029-49BA2740E8E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E234B4D9-AD4F-423B-9029-49BA2740E8E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,22 +7,27 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DanielHou_Json
+namespace DataClass
 {
-	class Program
+	public class PData
 	{
-		static void Main(string[] args)
+		public List<PopulationData> china = new List<PopulationData> { };
+		public List<PopulationData> usa = new List<PopulationData> { };
+		public List<PopulationData> india = new List<PopulationData> { };
+
+		public List<PopulationData> China { get => china; set => china = value; }
+		public List<PopulationData> Usa { get => usa; set => usa = value; }
+		public List<PopulationData> India { get => india; set => india = value;}
+
+		public void GettingData()
 		{
 			string chinadownload, usadownload, indiadownload;
-            using(var wc = new WebClient())
-            {
-                chinadownload = wc.DownloadString("http://api.worldbank.org/v2/countries/CHN/indicators/SP.POP.TOTL?per_page=5000&format=json");
+			using (var wc = new WebClient())
+			{
+				chinadownload = wc.DownloadString("http://api.worldbank.org/v2/countries/CHN/indicators/SP.POP.TOTL?per_page=5000&format=json");
 				usadownload = wc.DownloadString("http://api.worldbank.org/v2/countries/USA/indicators/SP.POP.TOTL?per_page=5000&format=json");
 				indiadownload = wc.DownloadString("http://api.worldbank.org/v2/countries/IND/indicators/SP.POP.TOTL?per_page=5000&format=json");
-            }
-			List<PopulationData> china = new List<PopulationData> { };
-			List<PopulationData> usa = new List<PopulationData> { };
-			List<PopulationData> india = new List<PopulationData> { };
+			}
 			dynamic j = JArray.Parse(chinadownload);
 			dynamic l = j[1];
 			foreach (dynamic row in l)
@@ -44,28 +49,24 @@ namespace DanielHou_Json
 				PopulationData p = new PopulationData(row["countryiso3code"], row["value"], row["date"]);
 				india.Add(p);
 			}
-			Console.WriteLine(china.Count());
-			Console.WriteLine(usa.Count());
-			Console.WriteLine(india.Count());
-			Console.ReadKey();
 		}
+	}
+	
+	public class PopulationData
+	{
+		public string _country;
+		public int _population;
+		public int _year;
 
-		public class PopulationData
+		public string Country { get => _country; set => _country = value; }
+		public int Population { get => _population; set => _population = value; }
+		public int Year { get => _year; set => _year = value; }
+
+		public PopulationData(dynamic c, dynamic p, dynamic y)
 		{
-			public string _country;
-			public int _population;
-			public int _year;
-
-			public string Country { get => _country; set => _country = value; }
-			public int Population { get => _population; set => _population = value; }
-			public int Year { get => _year; set => _year = value; }
-
-			public PopulationData(dynamic c, dynamic p, dynamic y)
-			{
-				_country = c;
-				_population = p;
-				_year = y;
-			}
+			_country = c;
+			_population = p;
+			_year = y;
 		}
 	}
 }
